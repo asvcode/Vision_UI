@@ -1,19 +1,16 @@
 from __future__ import print_function
 from ipywidgets import interact, interactive, fixed, interact_manual
+import ipywidgets
 import ipywidgets as widgets
 from IPython.display import display,clear_output
 
-import traitlets
-import tkinter as tk
 import pandas as pd
-
-import ipywidgets
-
-import warnings
-warnings.filterwarnings('ignore')
 
 from fastai.vision import *
 from fastai.widgets import *
+
+import warnings
+warnings.filterwarnings('ignore')
 
 image_path = './data/ReSize/test/000937384/20180420_204537.jpg'
 
