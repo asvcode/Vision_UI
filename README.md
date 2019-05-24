@@ -18,10 +18,22 @@ The Augmentation tab utilizes fastai parameters so you can view what different i
   <img width="350" height="276" hspace="20" src="static/aug_two.PNG"/><img width="316" height="276" src="static/aug_three.PNG">
 </p>
 
+View batch information
+
+<p align="center">
+  <img width="350" height="305" hspace="20" src="static/batch_two.PNG">
+</p>
+
 Review model data and choose suitable metrics for training
 
 <p align="center">
-  <img width="350" height="198" hspace="20" src="static/metrics.PNG"/><img width="332" height="198" src="static/model.PNG">
+  <img width="332" height="198" hspace="20" src="static/model.PNG"/><img width="350" height="198" src="static/metrics.PNG">
+</p>
+
+Review all parameters and get learning rate
+
+<p align="center">
+  <img width="350" height="142" hspace="20" src="static/LR_two.PNG"/><img width="273" height="142" src="static/LR.PNG">
 </p>
 
 
