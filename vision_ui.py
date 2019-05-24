@@ -72,7 +72,7 @@ def dashboard_one():
     display(dashboard_one.datain, dashboard_one.norma, dashboard_one.archi, xres_text, dashboard_one.pretrain_check, dashboard_one.f, dashboard_one.m)
 
 def dashboard_two():
-    button = widgets.Button(description="Click Me!")
+    button = widgets.Button(description="View")
     print('Augmentations')
 
     layout = {'width':'90%', 'height': '50px', 'border': 'solid', 'fontcolor':'lightgreen'}
@@ -291,10 +291,6 @@ def view_batch_folder(path):
     batch_val = int(dashboard_one.f.value) # batch size
     image_val = int(dashboard_one.m.value) # image size
 
-    tfms = get_transforms(do_flip=dashboard_two.doflip.value, flip_vert=dashboard_two.dovert.value, max_zoom=dashboard_two.three.value,
-                          p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
-                          max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
-
     out = widgets.Output()
     display(out)
 
@@ -306,6 +302,10 @@ def view_batch_folder(path):
                   dashboard_two.seven.value,'|''p affine: ', dashboard_two.four.value, '\n''Max Lighting: ', dashboard_two.five.value,
                   'p lighting: ', dashboard_two.six.value, '\n'
                   '\n''Normalization Value:', dashboard_one.norma.value, '\n')
+
+            tfms = get_transforms(do_flip=dashboard_two.doflip.value, flip_vert=dashboard_two.dovert.value, max_zoom=dashboard_two.three.value,
+                                  p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
+                                  max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
 
 
             data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
