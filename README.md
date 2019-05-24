@@ -4,7 +4,7 @@ Visual UI interface for fastai
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
-Aim to provide an easy to use graphical interface
+Aim to provide an easy to use graphical interface without the need to dig deep into the code.  This visual tool provides a good starting point to get training quickly using fastai.
 
 <p align="center">
   <img width="350" height="181" hspace="20" src="static/data.PNG"/><img width="350" height="181" src="static/aug_one.PNG">
@@ -23,9 +23,9 @@ Review model data and choose suitable metrics for training
 </p>
 
 
-
 ### Requirements
 - fastai
+
 I am using the developer version:
 
 <p align="left">
@@ -60,8 +60,23 @@ psutil (process and system utilities) is a cross-platform library for retrieving
 
 `pip install psutil`
 
-#### Known Issues
+
+### Installation
+
+git clone this repository
+
+`gitclone https://github.com/asvcode/Vision_UI.git`
+
+run `01_UI_Fastai.ipynb` ,specify your path and run `display_ui(path)`
+
+
+### Known Issues
 
 ##### Google Colab
 
 Colab does not currently support ipywidgets because their output is in its own frame so prevents ipywidets from working.  This is the link to issues thread [Link](https://github.com/googlecolab/colabtools/issues/60)
+
+### Future Work
+
+- Currently on works with images using the `ImageDataBunch.from_folder` option.  Plans to expand to `.from_csv` and `.from_df`
+
