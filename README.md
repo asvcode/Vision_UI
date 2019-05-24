@@ -30,11 +30,18 @@ Review model data and choose suitable metrics for training
   <img width="332" height="198" hspace="20" src="static/model.PNG"/><img width="350" height="198" src="static/metrics.PNG">
 </p>
 
-Review all parameters and get learning rate
+Review parameters get learning rate and train using the one cycle policy
 
 <p align="center">
-  <img width="350" height="142" hspace="20" src="static/LR_two.PNG"/><img width="273" height="142" src="static/LR.PNG">
+  <img width="451" height="184" hspace="20" src="static/LR_one.PNG"/><img width="350" height="184" src="static/LR.PNG">
 </p>
+
+Can experiment with various learning rates and train
+
+<p align="center">
+  <img width=393" height="273" hspace="20" src="static/LR_three.PNG"/><img width="300" height="273" src="static/Lr_four.PNG">
+</p>
+
 
 
 ### Requirements
