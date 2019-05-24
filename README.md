@@ -2,9 +2,11 @@
 Visual UI interface for fastai
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+
 
 Aim to provide an easy to use graphical interface without the need to dig deep into the code.  This visual tool provides a good starting point to get training quickly using fastai.
+
+All tabs are provided within an accordion design using ipywidgets, this allows for all aspects of choosing and viewing parameters in one line of sight
 
 <p align="center">
   <img width="350" height="181" hspace="20" src="static/data.PNG"/><img width="350" height="181" src="static/aug_one.PNG">
@@ -80,3 +82,5 @@ Colab does not currently support ipywidgets because their output is in its own f
 
 - Currently on works with images using the `ImageDataBunch.from_folder` option.  Plans to expand to `.from_csv` and `.from_df`
 
+
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
