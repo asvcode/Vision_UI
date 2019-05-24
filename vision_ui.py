@@ -342,6 +342,7 @@ def metrics_list(mets_list):
     mets_recall = metrics_dashboard.recall.value
     mets_dice = metrics_dashboard.dice.value
 
+    mets_list=[]
     output_acc = accuracy
     output_thresh = top_k_accuracy
     output = error_rate
@@ -496,8 +497,9 @@ def version(path):
 def info_lr(path):
     button = widgets.Button(description='Review Parameters')
     button_two = widgets.Button(description='LR')
+    button_three = widgets.Button(description='Train')
 
-    butlr = widgets.HBox([button, button_two])
+    butlr = widgets.HBox([button, button_two, button_three])
     display(butlr)
 
     out = widgets.Output()
@@ -520,9 +522,99 @@ def info_lr(path):
     def on_button_clicked_info2(b):
         with out:
             clear_output()
+            dashboard_one.datain.value, dashboard_one.norma.value, dashboard_one.archi.value, dashboard_one.pretrain_check.value,
+            dashboard_one.f.value, dashboard_one.m.value, dashboard_two.doflip.value, dashboard_two.dovert.value,
+            dashboard_two.two.value, dashboard_two.three.value, dashboard_two.seven.value, dashboard_two.four.value, dashboard_two.five.value,
+            dashboard_two.six.value, dashboard_one.norma.value,metrics_list(mets_list)
+
             learn_dash(path)
 
     button_two.on_click(on_button_clicked_info2)
+
+    def on_button_clicked_info3(b):
+        with out:
+            clear_output()
+            print('Train')
+            training(path)
+
+    button_three.on_click(on_button_clicked_info3)
+
+def lr_work():
+    if training.lr.value == '1e-6':
+        lr_work.info = float(0.000001)
+    elif training.lr.value == '1e-5':
+        lr_work.info = float(0.00001)
+    elif training.lr.value == '1e-4':
+        lr_work.info = float(0.0001)
+    elif training.lr.value == '1e-3':
+        lr_work.info = float(0.001)
+    elif training.lr.value == '1e-2':
+        lr_work.info = float(0.01)
+    elif training.lr.value == '1e-1':
+        lr_work.info = float(0.1)
+
+def training(path):
+    print('Using fit_one_cycle')
+    button = widgets.Button(description='Train')
+
+    style = {'description_width': 'initial'}
+
+    layout = {'width':'90%', 'height': '50px', 'border': 'solid', 'fontcolor':'lightgreen'}
+    layout_two = {'width':'100%', 'height': '200px', 'border': 'solid', 'fontcolor':'lightgreen'}
+    style_green = {'handle_color': 'green', 'readout_color': 'red', 'slider_color': 'blue'}
+    style_blue = {'handle_color': 'blue', 'readout_color': 'red', 'slider_color': 'blue'}
+
+    training.cl=widgets.FloatSlider(min=1,max=64,step=1,value=1, continuous_update=False, layout=layout, style=style_green, description="Cycle Length")
+    training.lr = widgets.ToggleButtons(
+        options=['1e-6', '1e-5', '1e-4', '1e-3', '1e-2', '1e-1'],
+        description='Learning Rate:',
+        disabled=False,
+        button_style='info', # 'success', 'info', 'warning', 'danger' or ''
+        style=style,
+        value='1e-2',
+        tooltips=['Choose a suitable learning rate'],
+    )
+
+
+    display(training.cl, training.lr)
+
+    display(button)
+
+    out = widgets.Output()
+    display(out)
+
+    def on_button_clicked(b):
+        with out:
+            clear_output()
+            lr_work()
+            print('Training....''\n''Learning Rate: ', lr_work.info)
+            dashboard_one.datain.value, dashboard_one.norma.value, dashboard_one.archi.value, dashboard_one.pretrain_check.value,
+            dashboard_one.f.value, dashboard_one.m.value, dashboard_two.doflip.value, dashboard_two.dovert.value,
+            dashboard_two.two.value, dashboard_two.three.value, dashboard_two.seven.value, dashboard_two.four.value, dashboard_two.five.value,
+            dashboard_two.six.value, dashboard_one.norma.value,metrics_list(mets_list)
+
+            metrics_list(mets_list)
+
+            batch_val = int(dashboard_one.f.value) # batch size
+            image_val = int(dashboard_one.m.value) # image size
+
+            r = dashboard_one.pretrain_check.value
+            #t = metrics_list(mets_list)
+
+            tfms = get_transforms(do_flip=dashboard_two.doflip.value, flip_vert=dashboard_two.dovert.value, max_zoom=dashboard_two.three.value,
+                          p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
+                          max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
+
+            data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
+
+            learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, metrics=metrics_list(mets_list), custom_head=None, callback_fns=ShowGraph)
+
+            cycle_l = int(training.cl.value)
+
+            learn.fit_one_cycle(cycle_l, slice(lr_work.info))
+
+
+    button.on_click(on_button_clicked)
 
 def display_ui(path):
     button = widgets.Button(description="Train")
