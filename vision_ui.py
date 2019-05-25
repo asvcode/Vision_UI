@@ -12,8 +12,6 @@ from fastai.widgets import *
 import warnings
 warnings.filterwarnings('ignore')
 
-image_path = './data/ReSize/test/000937384/20180420_204537.jpg'
-
 def dashboard_one():
     style = {'description_width': 'initial'}
 
@@ -71,7 +69,7 @@ def dashboard_one():
 
     display(dashboard_one.datain, dashboard_one.norma, dashboard_one.archi, xres_text, dashboard_one.pretrain_check, dashboard_one.f, dashboard_one.m)
 
-def dashboard_two():
+def dashboard_two(path):
     button = widgets.Button(description="View")
     print('Augmentations')
 
@@ -112,11 +110,13 @@ def dashboard_two():
 
     def on_button_clicked(b):
         print('displaying augmetations')
-        display_augs()
+        display_augs(path)
 
     button.on_click(on_button_clicked)
 
-def display_augs():
+
+def display_augs(path):
+    image_path = ImageList.from_folder(path).items[0]
     def get_ex(): return open_image(image_path)
 
     out_flip = dashboard_two.doflip.value #do flip
@@ -477,8 +477,9 @@ def version(path):
         with out:
             clear_output()
             print(f'Fastai Version: {fastai.__version__}')
-            print(f'Cuda: {torch.cuda.is_available()}')
-            print(f'GPU: {torch.cuda.get_device_name(0)}')
+            if torch.cuda.is_available():
+                print(f'Cuda: {torch.cuda.is_available()}')
+                print(f'GPU: {torch.cuda.get_device_name(0)}')
             print(f'Python version: {sys.version}')
             print(psutil.cpu_percent())
             print(psutil.virtual_memory())  # physical memory usage
@@ -490,7 +491,7 @@ def version(path):
         with out:
             clear_output()
             il = ImageList.from_folder(path)
-            print(f'No of items in folder: {len(il.items)}')
+            print(il)
 
     button_two.on_click(on_button_clicked_info2)
 
@@ -646,7 +647,7 @@ def display_ui(path):
         dashboard_one()
 
     with out2: #augmentation
-        dashboard_two()
+        dashboard_two(path)
 
     with out3: #Batch
         print('Click to view Batch')

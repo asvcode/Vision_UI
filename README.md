@@ -86,7 +86,7 @@ psutil (process and system utilities) is a cross-platform library for retrieving
 
 git clone this repository
 
-`gitclone https://github.com/asvcode/Vision_UI.git`
+`git clone https://github.com/asvcode/Vision_UI.git`
 
 run `01_UI_Fastai.ipynb` ,specify your path and run `display_ui(path)`
 
@@ -99,7 +99,7 @@ Colab does not currently support ipywidgets because their output is in its own f
 
 ### Future Work
 
-- Currently on works with images using the `ImageDataBunch.from_folder` option.  Plans to expand to `.from_csv` and `.from_df`
+- Currently it works with images using the `ImageDataBunch.from_folder` option.  Plans to expand to `.from_csv` and `.from_df`
 
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
