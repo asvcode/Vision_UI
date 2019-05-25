@@ -86,7 +86,7 @@ psutil (process and system utilities) is a cross-platform library for retrieving
 
 git clone this repository
 
-`gitclone https://github.com/asvcode/Vision_UI.git`
+`git clone https://github.com/asvcode/Vision_UI.git`
 
 run `01_UI_Fastai.ipynb` ,specify your path and run `display_ui(path)`
 
