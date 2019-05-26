@@ -1,9 +1,7 @@
 ### Visual_UI
 Visual UI interface for fastai
 
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
 [![Visual UI Demo](https://j.gifs.com/p8zLzN.gif)](https://www.youtube.com/watch?v=Hdj5NwQrP2o&feature=youtu.be)
 
