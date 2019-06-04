@@ -9,14 +9,32 @@ import pandas as pd
 from fastai.vision import *
 from fastai.widgets import *
 
+from tkinter import Tk
+from tkinter import filedialog
+from tkinter.filedialog import askdirectory
+
+import webbrowser
+from IPython.display import YouTubeVideo
+
 import warnings
 warnings.filterwarnings('ignore')
 
-image_path = './data/ReSize/test/000937384/20180420_204537.jpg'
+def get_image(image_path):
+    print(image_path)
+
+def path_choice():
+    path_choice.path = askdirectory(title='Select Folder')
+    print('Folder choice:', {path_choice.path})
+    return path_choice.path
+
+def image_choice():
+    image_choice.path = filedialog.askopenfilename(title='Choose Image')
+    return image_choice.path
 
 def dashboard_one():
     style = {'description_width': 'initial'}
 
+    print('Folder path is choosen in the info tab')
     dashboard_one.datain = widgets.ToggleButtons(
         options=['Folder'],
         description='Data In:',
@@ -72,7 +90,12 @@ def dashboard_one():
     display(dashboard_one.datain, dashboard_one.norma, dashboard_one.archi, xres_text, dashboard_one.pretrain_check, dashboard_one.f, dashboard_one.m)
 
 def dashboard_two():
+    choice_button = widgets.Button(description='Augmentation Image')
     button = widgets.Button(description="View")
+    print ('Choose image to view augmentations: (will open a new window)')
+
+    display(choice_button)
+
     print('Augmentations')
 
     layout = {'width':'90%', 'height': '50px', 'border': 'solid', 'fontcolor':'lightgreen'}
@@ -97,7 +120,7 @@ def dashboard_two():
     dashboard_two.two = widgets.FloatSlider(min=0,max=20,step=1,value=10, description='Max Rotate', orientation='vertical', style=style_green, layout=layout_two)
     dashboard_two.three = widgets.FloatSlider(min=1.1,max=4,step=1,value=1.1, description='Max Zoom', orientation='vertical', style=style_green, layout=layout_two)
     dashboard_two.four = widgets.FloatSlider(min=0.25, max=1.0, step=0.1, value=0.75, description='p_affine', orientation='vertical', style=style_green, layout=layout_two)
-    dashboard_two.five = widgets.FloatSlider(min=0.2,max=0.9, step=0.1,value=0.2, description='Max Lighting', orientation='vertical', style=style_blue, layout=layout_two)
+    dashboard_two.five = widgets.FloatSlider(min=0.2,max=0.99, step=0.1,value=0.2, description='Max Lighting', orientation='vertical', style=style_blue, layout=layout_two)
     dashboard_two.six = widgets.FloatSlider(min=0.25, max=1.1, step=0.1, value=0.75, description='p_lighting', orientation='vertical', style=style_blue, layout=layout_two)
     dashboard_two.seven = widgets.FloatSlider(min=0.1, max=0.9, step=0.1, value=0.2, description='Max warp', orientation='vertical', style=style_green, layout=layout_two)
 
@@ -110,13 +133,22 @@ def dashboard_two():
     print ('Press button to view augmentations.  Pressing the button again will let you view additional augmentations below')
     display(button)
 
+    def on_choice_button(b):
+        image_choice()
+    choice_button.on_click(on_choice_button)
+
     def on_button_clicked(b):
+        image_path = image_choice.path
         print('displaying augmetations')
-        display_augs()
+        display_augs(image_path)
 
     button.on_click(on_button_clicked)
 
-def display_augs():
+def display_augs(image_path):
+
+    get_image(image_path)
+    image_d = open_image(image_path)
+    print(image_d)
     def get_ex(): return open_image(image_path)
 
     out_flip = dashboard_two.doflip.value #do flip
@@ -137,7 +169,7 @@ def display_augs():
         img = get_ex().apply_tfms(tfms[0], get_ex(), size=224)
         img.show(ax=ax)
 
-def metrics_dashboard(path):
+def metrics_dashboard():
     button = widgets.Button(description="Metrics")
 
     batch_val = int(dashboard_one.f.value) # batch size
@@ -147,6 +179,7 @@ def metrics_dashboard(path):
                           p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
                           max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
 
+    path = path_choice.path
     data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
 
     layout = {'width':'90%', 'height': '50px', 'border': 'solid', 'fontcolor':'lightgreen'}
@@ -228,11 +261,7 @@ def metrics_dashboard(path):
         with out:
             clear_output()
             print('Training Metrics''\n')
-            #metrics_list(mets_list)
-            print('arch:', arch_work(), '\n''pretrain: ', dashboard_one.pretrain_check.value, '\n' ,'Choosen metrics: ',metrics_list(mets_list))
-            #metrics_list(mets_list)
-            #learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, metrics=metrics_list(mets_list), custom_head=None)
-            #learn.fit_one_cycle(1, slice(0.9))
+            print('arch:', dashboard_one.archi.value, '\n''pretrain: ', dashboard_one.pretrain_check.value, '\n' ,'Choosen metrics: ',metrics_list(mets_list))
 
     button.on_click(on_button_clicked)
 
@@ -284,7 +313,8 @@ def arch_work():
     output
     print(output)
 
-def view_batch_folder(path):
+def view_batch_folder():
+    print('Please select data folder in the info tab prior to clicking on batch button to avoid errors')
     button_g = widgets.Button(description="View Batch?")
     display(button_g)
 
@@ -301,13 +331,13 @@ def view_batch_folder(path):
                   '\n''Max Rotate: ', dashboard_two.two.value,'|''Max Zoom: ', dashboard_two.three.value,'|''Max Warp: ',
                   dashboard_two.seven.value,'|''p affine: ', dashboard_two.four.value, '\n''Max Lighting: ', dashboard_two.five.value,
                   'p lighting: ', dashboard_two.six.value, '\n'
-                  '\n''Normalization Value:', dashboard_one.norma.value, '\n')
+                  '\n''Normalization Value:', dashboard_one.norma.value, '\n''\n''working....')
 
             tfms = get_transforms(do_flip=dashboard_two.doflip.value, flip_vert=dashboard_two.dovert.value, max_zoom=dashboard_two.three.value,
                                   p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
                                   max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
 
-
+            path = path_choice.path
             data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
             data.normalize(stats_info())
             data.show_batch(rows=5, figsize=(10,10))
@@ -326,8 +356,6 @@ def stats_info():
         stats_info.stats = None
 
     stats = stats_info.stats
-
-    print('stats info: ',stats)
 
 mets_list = []
 
@@ -376,7 +404,7 @@ def metrics_list(mets_list):
 
     return mets_list
 
-def model_summary(path):
+def model_summary():
     print('Review Model information: ', dashboard_one.archi.value)
 
     batch_val = int(dashboard_one.f.value) # batch size
@@ -390,6 +418,7 @@ def model_summary(path):
                           p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
                           max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
 
+    path = path_choice.path
     data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
 
     r = dashboard_one.pretrain_check.value
@@ -406,7 +435,6 @@ def model_summary(path):
         with out:
             clear_output()
             print('working''\n')
-            #arch_work()
             learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, custom_head=None)
             print('Model Summary')
             info = learn.summary()
@@ -418,7 +446,6 @@ def model_summary(path):
         with out:
             clear_output()
             print('working''\n')
-            #arch_work()
             learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, custom_head=None)
             print('Model[0]')
             info_s = learn.model[0]
@@ -430,7 +457,6 @@ def model_summary(path):
         with out:
             clear_output()
             print('working''\n')
-            #arch_work()
             learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, custom_head=None)
             print('Model[1]')
             info_sm = learn.model[1]
@@ -438,7 +464,7 @@ def model_summary(path):
 
     button_model_1.on_click(on_button_clicked_model_1)
 
-def learn_dash(path):
+def learn_dash():
     button = widgets.Button(description="Learn")
     print ('Choosen metrics: ',metrics_list(mets_list))
     metrics_list(mets_list)
@@ -453,6 +479,7 @@ def learn_dash(path):
                           p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
                           max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
 
+    path = path_choice.path
     data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
 
     learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, metrics=metrics_list(mets_list), custom_head=None)
@@ -460,14 +487,15 @@ def learn_dash(path):
     learn.lr_find()
     learn.recorder.plot()
 
-def version(path):
+def version():
     import fastai
     import psutil
 
-    button = widgets.Button(description='System')
-    button_two = widgets.Button(description='Data Info')
+    print ('- View system info \n\n- Choose your image data folder (This will open a new window) \n\n- View number of files in folder')
 
-    but = widgets.HBox([button, button_two])
+    button = widgets.Button(description='System')
+    button_one = widgets.Button(description='Choose Folder')
+    but = widgets.HBox([button, button_one])
     display(but)
 
     out = widgets.Output()
@@ -486,15 +514,36 @@ def version(path):
 
     button.on_click(on_button_clicked_info)
 
-    def on_button_clicked_info2(b):
+    def on_button_clicked_info1(b):
         with out:
             clear_output()
-            il = ImageList.from_folder(path)
+            path_choice()
+            il = ImageList.from_folder(path_choice.path)
             print(f'No of items in folder: {len(il.items)}')
 
-    button_two.on_click(on_button_clicked_info2)
+    button_one.on_click(on_button_clicked_info1)
 
-def info_lr(path):
+    print ('Resources')
+    button_two = widgets.Button(description='Fastai Docs')
+    button_three = widgets.Button(description='Fastai Forums')
+    button_four = widgets.Button(description='Vision_UI github')
+
+    but_two = widgets.HBox([button_two, button_three, button_four])
+    display(but_two)
+
+    def on_doc_info(b):
+        webbrowser.open('https://docs.fast.ai/')
+    button_two.on_click(on_doc_info)
+
+    def on_forum(b):
+        webbrowser.open('https://forums.fast.ai/')
+    button_three.on_click(on_forum)
+
+    def vision_utube(b):
+            webbrowser.open('https://github.com/asvcode/Vision_UI')
+    button_four.on_click(vision_utube)
+
+def info_lr():
     button = widgets.Button(description='Review Parameters')
     button_two = widgets.Button(description='LR')
     button_three = widgets.Button(description='Train')
@@ -527,7 +576,7 @@ def info_lr(path):
             dashboard_two.two.value, dashboard_two.three.value, dashboard_two.seven.value, dashboard_two.four.value, dashboard_two.five.value,
             dashboard_two.six.value, dashboard_one.norma.value,metrics_list(mets_list)
 
-            learn_dash(path)
+            learn_dash()
 
     button_two.on_click(on_button_clicked_info2)
 
@@ -535,7 +584,7 @@ def info_lr(path):
         with out:
             clear_output()
             print('Train')
-            training(path)
+            training()
 
     button_three.on_click(on_button_clicked_info3)
 
@@ -553,7 +602,7 @@ def lr_work():
     elif training.lr.value == '1e-1':
         lr_work.info = float(0.1)
 
-def training(path):
+def training():
     print('Using fit_one_cycle')
     button = widgets.Button(description='Train')
 
@@ -574,7 +623,6 @@ def training(path):
         value='1e-2',
         tooltips=['Choose a suitable learning rate'],
     )
-
 
     display(training.cl, training.lr)
 
@@ -599,12 +647,12 @@ def training(path):
             image_val = int(dashboard_one.m.value) # image size
 
             r = dashboard_one.pretrain_check.value
-            #t = metrics_list(mets_list)
 
             tfms = get_transforms(do_flip=dashboard_two.doflip.value, flip_vert=dashboard_two.dovert.value, max_zoom=dashboard_two.three.value,
                           p_affine=dashboard_two.four.value, max_lighting=dashboard_two.five.value, p_lighting=dashboard_two.six.value,
                           max_warp=dashboard_two.seven.value, max_rotate=dashboard_two.two.value, xtra_tfms=None)
 
+            path = path_choice.path
             data = ImageDataBunch.from_folder(path, ds_tfms=tfms, bs=batch_val, size=image_val, test='test')
 
             learn = cnn_learner(data, base_arch=arch_work.info, pretrained=r, metrics=metrics_list(mets_list), custom_head=None, callback_fns=ShowGraph)
@@ -616,7 +664,7 @@ def training(path):
 
     button.on_click(on_button_clicked)
 
-def display_ui(path):
+def display_ui():
     button = widgets.Button(description="Train")
     button_b = widgets.Button(description="Metrics")
     button_m = widgets.Button(description='Model')
@@ -639,8 +687,7 @@ def display_ui(path):
     data6 = pd.DataFrame(np.random.normal(size = 350))
 
     with out1a: #info
-        print('System Overview')
-        version(path)
+        version()
 
     with out1: #data
         dashboard_one()
@@ -650,7 +697,7 @@ def display_ui(path):
 
     with out3: #Batch
         print('Click to view Batch')
-        view_batch_folder(path)
+        view_batch_folder()
 
     with out4: #model
         print('View Model information (model_summary, model[0], model[1])''\n''For xresnet: Pretrained needs to be set to False')
@@ -663,7 +710,7 @@ def display_ui(path):
             with out_two:
                 clear_output()
                 print('Your pretrained setting: ', dashboard_one.pretrain_check.value)
-                model_summary(path)
+                model_summary()
 
     button_m.on_click(on_button_clicked_train)
 
@@ -678,14 +725,14 @@ def display_ui(path):
             with out:
                 clear_output()
                 arch_work()
-                metrics_dashboard(path)
+                metrics_dashboard()
 
     button_b.on_click(on_button_clicked_learn)
 
     with out6: #lr
-        print ('click to view training parameters and learning rate''\n'
-              'You have to review the Metrics tab prior to choosing LR')
-        info_lr(path)
+        print ('click to view training parameters and learning rate''\n''\n'
+              '(You have to review the Metrics tab prior to choosing LR)')
+        info_lr()
 
     tab = widgets.Tab(children = [out1a, out1, out2, out3, out4, out5, out6])
     tab.set_title(0, 'Info')
