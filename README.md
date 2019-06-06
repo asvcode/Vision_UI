@@ -11,9 +11,12 @@ Aim to provide an easy to use graphical interface without the need to dig deep i
 
 ________________________________________________________________________________________________________________________________________
 
-## Updates
+### Updates
 
-06/03/2019  
+#### 06/05/2019
+- results tab added where you can load your saved model and plot multi_plot_losses, top_losses and Confusion_matrix
+
+#### 06/03/2019  
 - path and image_path (for augmentations) is now within vision_ui so no need to have a seperate cell to specify path
 - included link to fastai docs and forum in 'info' tab 
 
@@ -24,13 +27,13 @@ ________________________________________________________________________________
 All tabs are provided within an accordion design using ipywidgets, this allows for all aspects of choosing and viewing parameters in one line of sight
 
 <p align="center">
-  <img width="350" height="181" hspace="20" src="static/data.PNG"/><img width="350" height="181" src="static/aug_one.PNG">
+  <img width="350" height="181" hspace="20" src="static/data2.PNG"/><img width="350" height="181" src="static/aug_one2.PNG">
 </p>
 
 The Augmentation tab utilizes fastai parameters so you can view what different image augmentations look like and compare
 
 <p align="center">
-  <img width="350" height="276" hspace="20" src="static/aug_two.PNG"/><img width="316" height="276" src="static/aug_three.PNG">
+  <img width="350" height="276" hspace="20" src="static/aug_two2.PNG"/><img width="316" height="276" src="static/aug_three2.PNG">
 </p>
 
 View batch information
