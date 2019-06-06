@@ -92,7 +92,7 @@ def dashboard_one():
 def dashboard_two():
     choice_button = widgets.Button(description='Augmentation Image')
     button = widgets.Button(description="View")
-    print ('Choose image to view augmentations: (will open a new window)')
+    print ('>> Choose image to view augmentations: (will open a new window)')
 
     display(choice_button)
 
@@ -130,7 +130,7 @@ def dashboard_two():
 
     display (ui3)
 
-    print ('Press button to view augmentations.  Pressing the button again will let you view additional augmentations below')
+    print ('>> Press button to view augmentations.  Pressing the button again will let you view additional augmentations below')
     display(button)
 
     def on_choice_button(b):
@@ -139,7 +139,7 @@ def dashboard_two():
 
     def on_button_clicked(b):
         image_path = image_choice.path
-        print('displaying augmetations')
+        print('>> Displaying augmetations')
         display_augs(image_path)
 
     button.on_click(on_button_clicked)
@@ -251,7 +251,7 @@ def metrics_dashboard():
 
     display(ui3)
 
-    print('Click to view choosen metrics')
+    print('>> Click to view choosen metrics')
     display(button)
 
     out = widgets.Output()
@@ -314,7 +314,7 @@ def arch_work():
     print(output)
 
 def view_batch_folder():
-    print('Please select data folder in the info tab prior to clicking on batch button to avoid errors')
+    print('>> Select data folder in the info tab prior to clicking on batch button to avoid errors')
     button_g = widgets.Button(description="View Batch?")
     display(button_g)
 
@@ -405,7 +405,7 @@ def metrics_list(mets_list):
     return mets_list
 
 def model_summary():
-    print('Review Model information: ', dashboard_one.archi.value)
+    print('>> Review Model information: ', dashboard_one.archi.value)
 
     batch_val = int(dashboard_one.f.value) # batch size
     image_val = int(dashboard_one.m.value) # image size
@@ -491,7 +491,7 @@ def version():
     import fastai
     import psutil
 
-    print ('- View system info \n\n- Choose your image data folder (This will open a new window) \n\n- View number of files in folder')
+    print ('>> View system info \n\n>> Choose your image data folder (This will open a new window) \n\n>> View number of files in folder')
 
     button = widgets.Button(description='System')
     button_one = widgets.Button(description='Choose Folder')
@@ -603,7 +603,7 @@ def lr_work():
         lr_work.info = float(0.1)
 
 def training():
-    print('Using fit_one_cycle')
+    print('>> Using fit_one_cycle')
     button = widgets.Button(description='Train')
 
     style = {'description_width': 'initial'}
@@ -635,7 +635,7 @@ def training():
         with out:
             clear_output()
             lr_work()
-            print('Training....''\n''Learning Rate: ', lr_work.info)
+            print('>> Training....''\n''Learning Rate: ', lr_work.info)
             dashboard_one.datain.value, dashboard_one.norma.value, dashboard_one.archi.value, dashboard_one.pretrain_check.value,
             dashboard_one.f.value, dashboard_one.m.value, dashboard_two.doflip.value, dashboard_two.dovert.value,
             dashboard_two.two.value, dashboard_two.three.value, dashboard_two.seven.value, dashboard_two.four.value, dashboard_two.five.value,
@@ -664,6 +664,178 @@ def training():
 
     button.on_click(on_button_clicked)
 
+def loading_model():
+    loading_button = widgets.Button(description='Load Model')
+
+    display(loading_button)
+    def on_loading_clicked(b):
+        arch_working()
+        print('>> Arch', arch_working.info)
+        print('>> Model Name', load_model.model_path_2a)
+
+        tfms = get_transforms(do_flip=True, flip_vert=True, max_rotate=0.25, max_zoom=7.07,
+                   max_lighting=0.2, max_warp=0.2, p_affine=0.2,
+                   p_lighting=0.2, xtra_tfms=None)
+
+        data = ImageDataBunch.from_folder(path_choice_two.path, valid='test',
+                                       ds_tfms=tfms, bs=32,
+                                       size=256)
+        data.normalize(imagenet_stats)
+        loading_model.learn = cnn_learner(data, base_arch=arch_working.info, pretrained=True, custom_head=None)
+        loading_model.learn.load(load_model.model_path_2a)
+        print('>> Model loaded')
+        print('>> Getting Intepretations....')
+        inference()
+        print('Done')
+        rs()
+
+    loading_button.on_click(on_loading_clicked)
+
+def load_model():
+    load_model.model_path_2 = model_choice.path.split('.')
+    load_model.model_path_2a = load_model.model_path_2[0]
+    print(load_model.model_path_2a)
+    loading_model()
+
+def path_choice_two():
+    path_choice_two.path = askdirectory(title='Select Folder')
+    print('Data folder:', {path_choice_two.path})
+    model_choice()
+
+def model_choice():
+    model_choice.path = filedialog.askopenfilename(title='Select .pth file to load')
+
+def arch_choice():
+    print('\n''>> Choose Model architecture and pretrained value of trained model' '\n' '>> Then load model''\n')
+    style = {'description_width': 'initial'}
+
+    arch_choice.archi = widgets.ToggleButtons(
+        options=['alexnet', 'BasicBlock', 'densenet121', 'densenet161', 'densenet169', 'densenet201', 'resnet18',
+                 'resnet34', 'resnet50', 'resnet101', 'resnet152', 'squeezenet1_0', 'squeezenet1_1', 'vgg16_bn',
+                 'vgg19_bn', 'xresnet18', 'xresnet34', 'xresnet50', 'xresnet101', 'xresnet152'],
+        description='Architecture:',
+        disabled=False,
+        button_style='info',
+        tooltips=[],
+    )
+    layout = widgets.Layout(width='auto', height='40px') #set width and height
+
+    arch_choice.pretrain_check = widgets.Checkbox(
+        options=['Yes', "No"],
+        description='Pretrained:',
+        disabled=False,
+        value=True,
+        box_style='success',
+        button_style='lightgreen',
+        tooltips=['Default: Checked = use pretrained weights, Unchecked = No pretrained weights'],
+    )
+
+    display(arch_choice.archi, arch_choice.pretrain_check)
+    load_model()
+
+def arch_working():
+    if arch_choice.archi.value == 'alexnet':
+        arch_working.info = models.alexnet
+    elif arch_choice.archi.value == 'BasicBlock':
+        arch_working.info = models.BasicBlock
+    elif arch_choice.archi.value == 'densenet121':
+        arch_working.info = models.densenet121
+    elif arch_choice.archi.value == 'densenet161':
+        arch_working.info = models.densenet161
+    elif arch_choice.archi.value == 'densenet169':
+        arch_working.info = models.densenet169
+    elif arch_choice.archi.value == 'densenet201':
+        arch_working.info = models.densenet201
+    if arch_choice.archi.value == 'resnet18':
+        arch_working.info = models.resnet18
+    elif arch_choice.archi.value == 'resnet34':
+        arch_working.info = models.resnet34
+    elif arch_choice.archi.value == 'resnet50':
+        arch_working.info = models.resnet50
+    elif arch_choice.archi.value == 'resnet101':
+        arch_working.info = models.resnet101
+    elif arch_choice.archi.value == 'resnet152':
+        arch_working.info = models.resnet152
+    elif arch_choice.archi.value == 'squeezenet1_0':
+        arch_working.info = models.squeezenet1_0
+    elif arch_choice.archi.value == 'squeezenet1_1':
+        arch_working.info = models.squeezenet1_1
+    elif arch_choice.archi.value == 'vgg16_bn':
+        arch_working.info = models.vgg16_bn
+    elif arch_choice.archi.value == 'vgg19_bn':
+        arch_working.info = models.vgg19_bn
+    #elif dashboard_one.archi.value == 'wrn_22':
+    #    arch_work.info = models.wrn_22
+    elif arch_choice.archi.value == 'xresnet18':
+        arch_working.info = models.xresnet18
+    elif arch_choice.archi.value == 'xresnet34':
+        arch_working.info = models.xresnet34
+    elif arch_choice.archi.value == 'xresnet50':
+        arch_working.info = models.xresnet50
+    elif arch_choice.archi.value == 'xresnet101':
+        arch_working.info = models.xresnet101
+    elif arch_choice.archi.value == 'xresnet152':
+        arch_working.info = models.xresnet152
+
+    output = arch_working.info
+    output
+    print(output)
+
+def rs():
+    print('>> Model loaded: ', model_choice.path)
+    print('>> Use options below to view results')
+
+    plot_button = widgets.Button(description='Multi_Top_Losses')
+    cmap_button = widgets.Button(description='Top_Losses')
+    cm_button = widgets.Button(description='Confusion Matrix')
+
+    dip = widgets.HBox([plot_button, cmap_button, cm_button])
+
+    display(dip)
+
+    out = widgets.Output()
+    display(out)
+
+    def on_plot_button(b):
+        with out:
+            clear_output()
+            inference.interp.plot_multi_top_losses(9, figsize=(7,7))
+    plot_button.on_click(on_plot_button)
+
+    def on_cmap_button(b):
+        with out:
+            clear_output()
+            inference.interp.plot_top_losses(12)
+    cmap_button.on_click(on_cmap_button)
+
+    def on_cm_button(b):
+        with out:
+            clear_output()
+            inference.interp.plot_confusion_matrix(figsize=(10,10))
+    cm_button.on_click(on_cm_button)
+
+def inference():
+    preds,y,losses = loading_model.learn.get_preds(with_loss=True)
+    inference.interp = ClassificationInterpretation(loading_model.learn, preds, y, losses)
+    losses, ids = inference.interp.top_losses(inference.interp.data.c)
+
+def dash():
+    print('>> Specify data path (folder selection opens in new window)' '\n')
+    print('>> Then select .pth file to load')
+    path_sp = widgets.Button(description='Specify Path Folder')
+
+    #specify path
+    display(path_sp)
+    out = widgets.Output()
+    display(out)
+
+    def on_path_button(b):
+        with out:
+            clear_output()
+            path_choice_two()
+            arch_choice()
+    path_sp.on_click(on_path_button)
+
 def display_ui():
     button = widgets.Button(description="Train")
     button_b = widgets.Button(description="Metrics")
@@ -677,6 +849,7 @@ def display_ui():
     out4 = widgets.Output()
     out5 = widgets.Output()
     out6 = widgets.Output()
+    out7 = widgets.Output()
 
     data1a = pd.DataFrame(np.random.normal(size = 50))
     data1 = pd.DataFrame(np.random.normal(size = 100))
@@ -685,6 +858,7 @@ def display_ui():
     data4 = pd.DataFrame(np.random.normal(size = 250))
     data5 = pd.DataFrame(np.random.normal(size = 300))
     data6 = pd.DataFrame(np.random.normal(size = 350))
+    data7 = pd.DataFrame(np.random.normal(size= 400))
 
     with out1a: #info
         version()
@@ -734,7 +908,10 @@ def display_ui():
               '(You have to review the Metrics tab prior to choosing LR)')
         info_lr()
 
-    tab = widgets.Tab(children = [out1a, out1, out2, out3, out4, out5, out6])
+    with out7:
+        dash()
+
+    tab = widgets.Tab(children = [out1a, out1, out2, out3, out4, out5, out6, out7])
     tab.set_title(0, 'Info')
     tab.set_title(1, 'Data')
     tab.set_title(2, 'Augmentation')
@@ -742,4 +919,5 @@ def display_ui():
     tab.set_title(4, 'Model')
     tab.set_title(5, 'Metrics')
     tab.set_title(6, 'LR')
+    tab.set_title(7, 'Results')
     display(tab)
