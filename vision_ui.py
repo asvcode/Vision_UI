@@ -1,3 +1,10 @@
+"""
+Vision_UI
+Visual graphical interface for Fastai
+
+Last Update: 07/09/2019
+https://github.com/asvcode/Vision_UI
+"""
 from __future__ import print_function
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets
@@ -23,12 +30,16 @@ def get_image(image_path):
     print(image_path)
 
 def path_choice():
+    root = Tk()
     path_choice.path = askdirectory(title='Select Folder')
+    root.destroy()
     print('Folder choice:', {path_choice.path})
     return path_choice.path
 
 def image_choice():
+    root = Tk()
     image_choice.path = filedialog.askopenfilename(title='Choose Image')
+    root.destroy()
     return image_choice.path
 
 def dashboard_one():
@@ -646,6 +657,12 @@ def training():
             batch_val = int(dashboard_one.f.value) # batch size
             image_val = int(dashboard_one.m.value) # image size
 
+            #values for saving model
+            value_mone = str(dashboard_one.archi.value)
+            value_mtwo = str(dashboard_one.pretrain_check.value)
+            value_mthree = str(round(dashboard_one.f.value))
+            value_mfour = str(round(dashboard_one.m.value))
+
             r = dashboard_one.pretrain_check.value
 
             tfms = get_transforms(do_flip=dashboard_two.doflip.value, flip_vert=dashboard_two.dovert.value, max_zoom=dashboard_two.three.value,
@@ -661,6 +678,10 @@ def training():
 
             learn.fit_one_cycle(cycle_l, slice(lr_work.info))
 
+            #save model
+            file_model_name = value_mone + '_pretrained_' + value_mtwo + '_batch_' + value_mthree + '_image_' + value_mfour
+
+            learn.save(file_model_name)
 
     button.on_click(on_button_clicked)
 
@@ -698,12 +719,16 @@ def load_model():
     loading_model()
 
 def path_choice_two():
+    root = Tk()
     path_choice_two.path = askdirectory(title='Select Folder')
+    root.destroy()
     print('Data folder:', {path_choice_two.path})
     model_choice()
 
 def model_choice():
+    root = Tk()
     model_choice.path = filedialog.askopenfilename(title='Select .pth file to load')
+    root.destroy()
 
 def arch_choice():
     print('\n''>> Choose Model architecture and pretrained value of trained model' '\n' '>> Then load model''\n')
@@ -908,7 +933,7 @@ def display_ui():
               '(You have to review the Metrics tab prior to choosing LR)')
         info_lr()
 
-    with out7:
+    with out7: #results
         dash()
 
     tab = widgets.Tab(children = [out1a, out1, out2, out3, out4, out5, out6, out7])
