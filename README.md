@@ -13,6 +13,10 @@ ________________________________________________________________________________
 
 ### Updates
 
+#### 07/09/2019
+- after a train running, the model is saved in the models folder with the model name as 'architecture' + 'pretrained' + batchsize + image size eg: resnet50_pretrained_True_batch_32_image_128.pth
+- updated tkinter askdirectory code: now after choosing a file the tkinter dialogue box will be destroyed - previously the box would remain open
+
 #### 06/05/2019
 - results tab added where you can load your saved model and plot multi_plot_losses, top_losses and Confusion_matrix
 
