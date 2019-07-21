@@ -110,7 +110,7 @@ git clone this repository
 
 `git clone https://github.com/asvcode/Vision_UI.git`
 
-run `01_UI_Fastai.ipynb` ,specify your path and run `display_ui(path)`
+run `01_UI_Fastai.ipynb` and run `display_ui(path)`
 
 
 ### Known Issues
