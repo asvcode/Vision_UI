@@ -37,13 +37,13 @@ All tabs are provided within an accordion design using ipywidgets, this allows f
 The Augmentation tab utilizes fastai parameters so you can view what different image augmentations look like and compare
 
 <p align="center">
-  <img width="350" height="276" hspace="20" src="static/aug_two2.PNG"/><img width="316" height="276" src="static/aug_three2.PNG">
+  <img width="350" height="276" hspace="20" src="static/aug_two3.PNG"/><img width="316" height="276" src="static/aug_three3.PNG">
 </p>
 
 View batch information
 
 <p align="center">
-  <img width="350" height="305" hspace="20" src="static/batch_two.PNG">
+  <img width="350" height="305" hspace="20" src="static/batch_three.PNG">
 </p>
 
 Review model data and choose suitable metrics for training
