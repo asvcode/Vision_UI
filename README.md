@@ -13,6 +13,38 @@ ________________________________________________________________________________
 
 ### Updates
 
+#### 09/12/2019 - Confusion Matrix Upgrades
+- Under the Results tab, the confusion matrix tab now includes enhanced viewing features: 
+
+> Option to view images with heatmaps or not
+<p align="left">
+  <img width="400" height="173" src="static/CM_one.PNG">
+</p>
+
+> Option to view images within each section of the matrix
+<p align="left">
+  <img width="200" height="236" src="static/CM_four.PNG">
+</p>
+
+> If heatmap option is 'YES' you can choose colormap, interpolation and alpha parameters
+<p align="left">
+  <img width="500" height="479" src="static/CM_two.PNG">
+</p>
+
+> Examples of using different parameters for viewing images
+<p align="center">
+  <img width="200" height="189" hspace="10" src="static/CM_five.PNG"/><img width="200" height="189" hspace="10" src="static/CM_six.PNG"><img width="200" height="189" hspace="10" src="static/CM_seven.PNG"><img width="200" height="189" hspace="10" src="static/CM_eight.PNG">
+</p>
+
+> Also have the option to view the images without the heatmap feature.  Images within each matrix class display Index, Actual_Class, Predicted_Class, Prediction value, Loss and Image location 
+<p align="center">
+  <img width="400" height="612" src="static/CM_nine.PNG">
+</p>
+
+> Images are stored within the path folder under their respective confusion matrix tags
+
+
+
 #### 07/09/2019
 - after a training run, the model is saved in the models folder with the following name: 'architecture' + 'pretrained' + batchsize + image size eg: resnet50_pretrained_True_batch_32_image_128.pth
 - updated tkinter askdirectory code: now after choosing a file the tkinter dialogue box will be destroyed - previously the box would remain open
