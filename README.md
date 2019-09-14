@@ -43,6 +43,8 @@ ________________________________________________________________________________
 
 > Images are stored within the path folder under their respective confusion matrix tags
 
+> View saved image files from various sections of the confusion matrix
+
 <p align="center">
   False Positive
   <img width="856" height="100" hspace="10" src="static/CM_FP.PNG"/> 
