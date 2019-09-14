@@ -43,14 +43,17 @@ ________________________________________________________________________________
 
 > Images are stored within the path folder under their respective confusion matrix tags
 
-> View saved image files from various sections of the confusion matrix
+> View saved image files from various sections of the confusion matrix and compare their heatmap images.
 
 <p align="center">
   False Positive
   <img width="856" height="100" hspace="10" src="static/CM_FP.PNG"/> 
   True Positive
   <img width="856" height="100" hspace="10" src="static/CM_TP.PNG"> 
-  True Negative<img width="856" height="100" hspace="10" src="static/CM_TN.PNG">
+  True Negative
+  <img width="856" height="100" hspace="10" src="static/CM_TN.PNG">
+  False Negative
+  <img width="856" height="100" hspace="10" src="static/CM_FN.PNG">
 </p>
 
 
