@@ -13,6 +13,9 @@ ________________________________________________________________________________
 
 ### Updates
 
+#### 09/25/2019 - xresnet architecture
+- xresnet architectures now working (using xresnet2.py from fastai)
+
 #### 09/12/2019 - Confusion Matrix Upgrades
 - Under the Results tab, the confusion matrix tab now includes enhanced viewing features: 
 
