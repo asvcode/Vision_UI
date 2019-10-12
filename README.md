@@ -1,7 +1,7 @@
 ### Visual_UI
 Visual UI interface for fastai
 
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6) 
 
 [![Visual UI Demo](static/visionV2.gif)](https://www.youtube.com/watch?v=I6hTbjUQvPU&feature=youtu.be)
 
@@ -12,6 +12,9 @@ Visual UI adds a graphical interface to fastai allowing the user to quickly load
 ________________________________________________________________________________________________________________________________________
 
 ### Updates
+
+#### 10/12/2019 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6)
+- Works with Google Colab (https://github.com/asvcode/Colab_UI)
 
 #### 09/25/2019 - xresnet architecture
 - xresnet architectures now working (using xresnet2.py from fastai)
