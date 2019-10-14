@@ -166,9 +166,9 @@ run `01_UI_Fastai.ipynb` and run `display_ui(path)`
 
 ### Known Issues
 
-##### Google Colab
+##### Paperspace
 
-Colab does not currently support ipywidgets because their output is in its own frame so prevents ipywidets from working.  This is the link to issues thread [Link](https://github.com/googlecolab/colabtools/issues/60)
+Currently causing [display] issues with tkinter
 
 ### Future Work
 
