@@ -105,7 +105,7 @@ def dashboard_one():
 
 def dashboard_two():
     button = widgets.Button(description="View")
-    print ('>> Choose image to view augmentations: (will open a new window)')
+    print ('>> Choose image to view augmentations:')
 
     image_choice()
     print('Augmentations')
