@@ -14,7 +14,7 @@ ________________________________________________________________________________
 ### Updates
 
 #### 10/12/2019 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6)
-- Works with Google Colab (https://github.com/asvcode/Colab_UI)
+- Works with Google Colab (https://github.com/asvcode/Colab_UI) - Results tab not currently available in Colab
 
 #### 09/25/2019 - xresnet architecture
 - xresnet architectures now working (using xresnet2.py from fastai)
