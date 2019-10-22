@@ -19,7 +19,7 @@ ________________________________________________________________________________
 #### 09/25/2019 - xresnet architecture
 - xresnet architectures now working (using xresnet2.py from fastai)
 
-#### 09/12/2019 - Confusion Matrix Upgrades
+#### 09/12/2019 - Confusion Matrix Upgrades (currently only works if there are 2 classes)
 - Under the Results tab, the confusion matrix tab now includes enhanced viewing features: 
 
 > Option to view images with heatmaps or not
