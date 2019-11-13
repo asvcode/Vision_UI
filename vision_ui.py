@@ -2,7 +2,7 @@
 Vision_UI
 Visual graphical interface for Fastai
 
-Last Update: 09/25/2019
+Last Update: 11/12/2019
 https://github.com/asvcode/Vision_UI
 """
 from __future__ import print_function
@@ -503,16 +503,75 @@ def learn_dash():
     learn.lr_find()
     learn.recorder.plot()
 
+def ds():
+    style = {'description_width': 'initial'}
+    ds.datas = widgets.ToggleButtons(
+        options=['Folder', 'CATS&DOGS', 'IMAGENETTE',
+                 'IMAGENETTE_160', 'IMAGENETTE_320', 'IMAGEWOOF', 'IMAGEWOOF_160', 'IMAGEWOOF_320',
+                 'CIFAR', 'CIFAR_100', 'MNIST', 'MNIST_SAMPLE', 'MNIST_TINY'],
+        description='Choose',
+        disabled=False,
+        button_style='info', # 'success', 'info', 'warning', 'danger' or ''
+        tooltips=['Choose your folder', ' Cats&Dogs: 25000 images, 819MB',
+                  'Imagenette: A subset of 10 easily classified classes from Imagenet, 18000 images, 1.48GB', 'Imagenette_160: 18000 images, 127MB',
+                  'Imagenette_320: 18000 images, 358MB', 'ImageWoof: A subset of 10 harder to classify classes from Imagenet, 18000 images, 1.28GB',
+                  'ImageWoof_160: 18000 images, 119MB', 'ImageWoof_320: 18000 images, 343MB', 'Cifar: 60000 images, 234MB',
+                  'Cifar_100: 100 classes, 60000 images, 234MB', 'Mnist', 'Mnist 14434 images', 'Mnist 1428 images'],
+        style=style
+    )
+    display(ds.datas)
+
+def ds_choice():
+    if ds.datas.value == 'Folder':
+        path_choice()
+    elif ds.datas.value == 'CATS&DOGS':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.DOGS)
+    elif ds.datas.value == 'IMAGENETTE':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.IMAGENETTE)
+    elif ds.datas.value == 'IMAGENETTE_160':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.IMAGENETTE_160)
+    elif ds.datas.value == 'IMAGENETTE_320':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.IMAGENETTE_320)
+    elif ds.datas.value == 'IMAGEWOOF':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.IMAGEWOOF)
+    elif ds.datas.value == 'IMAGEWOOF_160':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.IMAGEWOOF_160)
+    elif ds.datas.value == 'IMAGEWOOF_320':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.IMAGEWOOF_320)
+    elif ds.datas.value == 'CIFAR':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.CIFAR)
+    elif ds.datas.value == 'CIFAR_100':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.CIFAR_100)
+    elif ds.datas.value == 'MNIST':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.MNIST)
+    elif ds.datas.value == 'MNIST_SAMPLE':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.MNIST_SAMPLE)
+    elif ds.datas.value == 'MNIST_TINY':
+        print('downloading dataset')
+        path_choice.path = untar_data(URLs.MNIST_TINY)
+
 def version():
     import fastai
     import psutil
 
-    print ('>> Vision_UI Last Update: 09/25/2019 \n\n>> View system info \n\n>> Choose your image data folder (This will open a new window) \n\n>> View number of files in folder')
+    print ('>> Vision_UI Last Update: 11/12/2019')
+    style = {'description_width': 'initial'}
 
     button = widgets.Button(description='System')
     button_one = widgets.Button(description='Choose Folder')
-    but = widgets.HBox([button, button_one])
-    display(but)
+    button_t = widgets.Button(description='Choice')
+    display(button)
 
     out = widgets.Output()
     display(out)
@@ -530,14 +589,22 @@ def version():
 
     button.on_click(on_button_clicked_info)
 
-    def on_button_clicked_info1(b):
-        with out:
+    print ('>> Choose your own dataset (Folder - opens a new window) or a dataset (hover over button to view dataset info) \n\n>> Click Choice button')
+    ds()
+    display(button_t)
+
+    out_three = widgets.Output()
+    display(out_three)
+
+    def on_button_clicked_info2(b):
+        with out_three:
             clear_output()
-            path_choice()
+            ds_choice()
             il = ImageList.from_folder(path_choice.path)
             print(f'No of items in folder: {len(il.items)}')
+            print('Done!')
 
-    button_one.on_click(on_button_clicked_info1)
+    button_t.on_click(on_button_clicked_info2)
 
     print ('Resources')
     button_two = widgets.Button(description='Fastai Docs')
@@ -700,6 +767,8 @@ def training():
 def loading_model():
     loading_button = widgets.Button(description='Load Model')
 
+    print('You need a <test> folder for calculating interpretations ')
+
     display(loading_button)
     def on_loading_clicked(b):
         arch_working()
@@ -725,9 +794,8 @@ def loading_model():
     loading_button.on_click(on_loading_clicked)
 
 def load_model():
-    load_model.model_path_2 = model_choice.path.split('.')
+    load_model.model_path_2 = model_choice.path.split('.pth')
     load_model.model_path_2a = load_model.model_path_2[0]
-    print(load_model.model_path_2a)
     loading_model()
 
 def path_choice_two():
@@ -740,6 +808,7 @@ def path_choice_two():
 def model_choice():
     root = Tk()
     model_choice.path = filedialog.askopenfilename(title='Select .pth file to load')
+    print('File to be loaded: ', {model_choice.path})
     root.destroy()
 
 def arch_choice():
@@ -848,7 +917,7 @@ def rs():
     def on_cm_button(b):
         with out:
             clear_output()
-            heatmap_choice()
+            confusion_test()
     cm_button.on_click(on_cm_button)
 
 def inference():
@@ -875,10 +944,28 @@ def dash():
             arch_choice()
     path_sp.on_click(on_path_button)
 
+def confusion_test():
+
+    print('working.......')
+    tfms = get_transforms(do_flip=True, flip_vert=True, max_rotate=0.25, max_zoom=1.07,
+                   max_lighting=0.2, max_warp=0.1, p_affine=0.2,
+                   p_lighting=0.2, xtra_tfms=None)
+
+    data = ImageDataBunch.from_folder(path_choice_two.path, valid='test',
+                                       ds_tfms=tfms, bs=128,
+                                       size=128)
+
+    class_num = data.c
+    print(f'Number of classes: {class_num}')
+
+    if class_num == 2:
+        heatmap_choice()
+    elif class_num > 2:
+        print('More than 2 classes - unable to split into TN, FN, TP, FP')
+        inference.interp.plot_confusion_matrix(figsize=(5,5))
+
 def confusion():
     print ('>> Confusion Matrix')
-
-    inference.interp.plot_confusion_matrix(figsize=(5,5))
 
     upp, low = inference.interp.confusion_matrix()
     tn, fp = upp[0], upp[1]
@@ -925,6 +1012,8 @@ def confusion():
             TP()
     button_two.on_click(on_tp_button)
 
+    inference.interp.plot_confusion_matrix(figsize=(5,5))
+
 def heatmap_choice():
     print ('>>  View Heatmaps? \n')
 
@@ -957,7 +1046,7 @@ def heatmap_choice():
 
 def cm_values():
     cm_values.color = widgets.ToggleButtons(
-        options=['magma', 'viridis', 'seismic', 'gist_rainbow', 'gnuplot', 'hsv_r', 'hsv'],
+        options=['none','magma', 'viridis', 'seismic', 'gist_rainbow', 'gnuplot', 'hsv_r', 'hsv'],
         description='Colormap:',
         disabled=False,
         button_style='success', # 'success', 'info', 'warning', 'danger' or ''
@@ -975,8 +1064,6 @@ def cm_values():
     layout = {'width':'90%', 'height': '50px', 'border': 'solid', 'fontcolor':'lightgreen'}
     style_green = {'handle_color': 'green', 'readout_color': 'red', 'slider_color': 'blue'}
     cm_values.f=widgets.FloatSlider(min=0,max=2,step=0.1,value=0.4, continuous_update=False, layout=layout, style=style_green, description="Alpha")
-
-
 
     display(cm_values.color, cm_values.inter, cm_values.f)
 
@@ -1403,7 +1490,7 @@ def display_ui():
 
     button_b.on_click(on_button_clicked_learn)
 
-    with out6: #lr
+    with out6: #train
         print ('>> Click to view training parameters and learning rate''\n''\n'
               '>> IMPORTANT: You have to go through METRICS tab prior to choosing LR')
         info_lr()
