@@ -13,6 +13,17 @@ ________________________________________________________________________________
 
 ### Updates
 
+#### 11/12/2019 
+- Under the 'Info' tab you can now easily upload some common datasets: Cats&Dogs, Imagenette, Imagewoof, Cifar and Mnist
+<p align="left">
+  <img width="500" height="225" src="static/info_dashboard.PNG">
+</p>
+
+- Under the 'Results' tab if there are more than 2 classes the confusion matrix upgrades will not work but you can now view the confusion matrix
+<p align="left">
+  <img width="350" height="368" src="static/cm_class.PNG">
+</p>
+
 #### 10/12/2019 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6)
 - Works with Google Colab (https://github.com/asvcode/Colab_UI) - Results tab not currently available in Colab
 
