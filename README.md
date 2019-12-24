@@ -13,6 +13,11 @@ ________________________________________________________________________________
 
 ### Updates
 
+#### 12/23/2019
+- Inclusion of ImageDataBunch.from_csv
+- Additional augmentations included [cutout, jitter, contrast, brightness, rotate, symmetric warp, padding]
+- Inclusion of ClassConfusion widget
+
 #### 11/12/2019 
 - Under the 'Info' tab you can now easily upload some common datasets: Cats&Dogs, Imagenette, Imagewoof, Cifar and Mnist
 <p align="left">
@@ -172,7 +177,7 @@ git clone this repository
 
 `git clone https://github.com/asvcode/Vision_UI.git`
 
-run `01_UI_Fastai.ipynb` and run `display_ui(path)`
+run `Visual_UI.ipynb` and run `display_ui()`
 
 
 ### Known Issues
@@ -183,4 +188,4 @@ Currently causing [display] issues with tkinter
 
 ### Future Work
 
-- Currently on works with images using the `ImageDataBunch.from_folder` option.  Plans to expand to `.from_csv` and `.from_df`
+- Integrate into fastai v2
