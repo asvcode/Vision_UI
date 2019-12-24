@@ -17,6 +17,7 @@ ________________________________________________________________________________
 - Inclusion of ImageDataBunch.from_csv
 - Additional augmentations included [cutout, jitter, contrast, brightness, rotate, symmetric warp, padding]
 - Inclusion of ClassConfusion widget
+- Addition of 'Code' tab to view code
 
 #### 11/12/2019 
 - Under the 'Info' tab you can now easily upload some common datasets: Cats&Dogs, Imagenette, Imagewoof, Cifar and Mnist
