@@ -334,14 +334,14 @@ def aug():
                                      orientation='horizontal', disabled=True)
     #Zoom
     if aug_paras.ii.value == True:
-            aug.b6_zoom = FloatSlider(min=0,max=5,step=0.1, description='max_zoom',
+            aug.b6_zoom = FloatSlider(min=1,max=5,step=0.1, description='max_zoom',
                                      orientation='horizontal', disabled=False)
-            aug.b6_pval = FloatSlider(min=0,max=1,step=0.1, description='p',
+            aug.b6_pval = FloatSlider(min=1,max=1,step=0.1, description='p',
                                      orientation='horizontal', disabled=False)
     else:
-            aug.b6_zoom = FloatSlider(min=0,max=5,step=0.1, description='max_zoom',
+            aug.b6_zoom = FloatSlider(min=1,max=5,step=0.1, description='max_zoom',
                                      orientation='horizontal', disabled=True)
-            aug.b6_pval = FloatSlider(min=0,max=1,step=1, description='p',
+            aug.b6_pval = FloatSlider(min=1,max=1,step=1, description='p',
                                      orientation='horizontal', disabled=True)
 
     #Single/Multi
@@ -818,8 +818,9 @@ def display_ui():
         clear_output()
         write_code()
 
-    with out5: #Imagewoof
+    with out5: #Imagewoof Play
         clear_output()
+        print(BOLD + BLUE + 'Work in progress.....')
         play_button = widgets.Button(description='Parameters')
         display(play_button)
         play_out = widgets.Output()
