@@ -11,6 +11,10 @@ ________________________________________________________________________________
 
 ### Updates
 
+#### 03/17/2020
+- Update for compatability with [fastai2](https://github.com/fastai/fastai2)
+- Files: Visual_UI2.ipyb and vision_ui2.py
+
 #### 12/23/2019
 - Inclusion of ImageDataBunch.from_csv
 - Additional augmentations included [cutout, jitter, contrast, brightness, rotate, symmetric warp, padding]
