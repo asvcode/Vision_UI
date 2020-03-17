@@ -336,12 +336,12 @@ def aug():
     if aug_paras.ii.value == True:
             aug.b6_zoom = FloatSlider(min=1,max=5,step=0.1, description='max_zoom',
                                      orientation='horizontal', disabled=False)
-            aug.b6_pval = FloatSlider(min=1,max=1,step=0.1, description='p',
+            aug.b6_pval = FloatSlider(min=0,max=1,step=0.1, description='p',
                                      orientation='horizontal', disabled=False)
     else:
             aug.b6_zoom = FloatSlider(min=1,max=5,step=0.1, description='max_zoom',
                                      orientation='horizontal', disabled=True)
-            aug.b6_pval = FloatSlider(min=1,max=1,step=1, description='p',
+            aug.b6_pval = FloatSlider(min=0,max=1,step=1, description='p',
                                      orientation='horizontal', disabled=True)
 
     #Single/Multi
@@ -414,12 +414,16 @@ def aug_dash():
     th = widgets.Button(description='Normalization', disabled=True, button_style='')
     aug_dash.norm = widgets.ToggleButtons(value='Imagenet', options=['Imagenet', 'Mnist', 'Cifar', 'None'], description='', button_style='info',
                                       style=style, layout=Layout(width='auto'))
-    tr = widgets.Button(description='Batch Size', disabled=True, button_style='')
+    tr = widgets.Button(description='Batch Size', disabled=True, button_style='warning')
     aug_dash.bs = widgets.ToggleButtons(value='16', options=['8', '16', '32', '64'], description='', button_style='warning',
                                       style=style, layout=Layout(width='auto'))
-    te = widgets.Button(description='Image Size', disabled=True, button_style='')
-    aug_dash.imgsiz = widgets.ToggleButtons(value='128', options=['28', '64', '128', '194', '254'], description='', button_style='primary',
-                                      style=style, layout=Layout(width='auto'))
+    spj = widgets.Button(description='Presizing', disabled=True, button_style='primary')
+    te = widgets.Button(description='Item Size', disabled=True, button_style='primary')
+    aug_dash.imgsiz = widgets.ToggleButtons(value='194', options=['28', '64', '128', '194', '254'],
+                                            description='', button_style='primary', style=style, layout=Layout(width='auto'))
+    to = widgets.Button(description='Batch Size', disabled=True, button_style='primary')
+    aug_dash.imgbth = widgets.ToggleButtons(value='128', options=['28', '64', '128', '194', '254'],
+                                            description='', button_style='primary', style=style, layout=Layout(width='auto'))
     tf = widgets.Button(description='Augmentation', disabled=True, button_style='danger')
     aug_dash.aug = widgets.ToggleButtons(value='No', options=['No', 'Yes'], description='', button_style='info',
                                       style=style, layout=Layout(width='auto'))
@@ -429,14 +433,16 @@ def aug_dash():
     it3 = [th, aug_dash.norm]
     it4 = [tr, aug_dash.bs]
     it5 = [te, aug_dash.imgsiz]
+    it52 = [to, aug_dash.imgbth]
     it6 = [tf, aug_dash.aug]
     il = widgets.HBox(it)
     ij = widgets.HBox(it2)
     ik = widgets.HBox(it3)
     ie = widgets.HBox(it4)
     iw = widgets.HBox(it5)
+    ip = widgets.HBox(it52)
     iq = widgets.HBox(it6)
-    ir = widgets.VBox([il, ij, ik, ie, iw, iq])
+    ir = widgets.VBox([il, ij, ik, ie, spj, iw, ip, iq])
     display(ir)
     display(aug_button)
 
@@ -528,6 +534,9 @@ def code_test():
     stats_info()
     method = ResizeMethod.Pad
 
+    item_size = int(aug_dash.imgsiz.value)
+    final_size = int(aug_dash.imgbth.value)
+
     if aug_dash.bi.value == 'Single':
         code_test.items = repeat_one(ds_choice.source)
     if aug_dash.bi.value == 'Multi':
@@ -538,6 +547,8 @@ def code_test():
         print(BOLD + BLUE + "Padding: " + RESET + RED + str(aug_dash.pad.value))
         print(BOLD + BLUE + "Normalization: " + RESET + RED + str(stats_info.stats))
         print(BOLD + BLUE + "Batch Size: " + RESET + RED + (aug_dash.bs.value))
+        print(BOLD + BLUE + "Item Size: " + RESET + RED + str(item_size))
+        print(BOLD + BLUE + "Final Size: " + RESET + RED + str(final_size))
         after_b = None
     if aug_dash.aug.value == 'Yes':
         print(BOLD + BLUE + "working.....: " + RESET + RED + 'Augmentations\n')
@@ -552,6 +563,8 @@ def code_test():
         print(BOLD + BLUE + "Padding: " + RESET + RED + str(aug_dash.pad.value))
         print(BOLD + BLUE + "Normalization: " + RESET + RED + str(stats_info.stats))
         print(BOLD + BLUE + "Batch Size: " + RESET + RED + (aug_dash.bs.value))
+        print(BOLD + BLUE + "Item Size: " + RESET + RED + str(item_size))
+        print(BOLD + BLUE + "Final Size: " + RESET + RED + str(final_size))
 
         xtra_tfms = [RandomErasing(p=aug.b_pval.value, max_count=aug.b_max.value, min_aspect=aug.b_asp.value, sl=aug.b_len.value, sh=aug.b_ht.value), #p= probabilty
                  Brightness(max_lighting=aug.b4_max.value, p=aug.b4_pval.value, draw=None, batch=None),
@@ -562,13 +575,13 @@ def code_test():
                  Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=aug_dash.pad.value, batch=False)
                     ]
 
-        after_b = [Resize(128), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
+        after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
                    Normalize(stats_info.stats)]
 
     if display_ui.tab.selected_index == 2: #>>> Augmentation tab
 
         tfms = [[PILImage.create], [parent_label, Categorize]]
-        item_tfms = [ToTensor(), Resize(194)]
+        item_tfms = [ToTensor(), Resize(item_size)]
         dsets = Datasets(code_test.items, tfms=tfms)
         dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
 
@@ -579,7 +592,7 @@ def code_test():
         items = get_image_files(ds_choice.source/'train')
         split_idx = block_ch.spl_val(items)
         tfms = [[block_ch.cls], [block_ch.outputb, block_ch.ctg]]
-        item_tfms = [ToTensor(), Resize(194)]
+        item_tfms = [ToTensor(), Resize(item_size)]
         dsets = Datasets(items, tfms=tfms, splits=split_idx)
         dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
 
@@ -677,6 +690,10 @@ def write_code():
 
 def play_info():
     """Helper for imagewoof play"""
+
+    item_size = int(aug_dash.imgsiz.value)
+    final_size = int(aug_dash.imgbth.value)
+
     print(BOLD + BLUE +  'Loading ImageWoof-160\n' + RESET)
     print(BOLD + BLUE + "Current Augmentations:" + RESET)
     print(BOLD + BLUE + "RandomErasing: " + RESET + RED + 'max_count=' + str(aug.b_max.value) + ' p=' + str(aug.b_pval.value))
@@ -690,6 +707,8 @@ def play_info():
     print(BOLD + BLUE + "Padding: " + RESET + RED + str(aug_dash.pad.value))
     print(BOLD + BLUE + "Normalization: " + RESET + RED + str(stats_info.stats))
     print(BOLD + BLUE + "Batch Size: " + RESET + RED + (aug_dash.bs.value))
+    print(BOLD + BLUE + "Item Size: " + RESET + RED + str(item_size))
+    print(BOLD + BLUE + "Final Size: " + RESET + RED + str(final_size))
 
     xtra_tfms = [RandomErasing(p=aug.b_pval.value, max_count=aug.b_max.value, min_aspect=aug.b_asp.value, sl=aug.b_len.value, sh=aug.b_ht.value), #p= probabilty
                  Brightness(max_lighting=aug.b4_max.value, p=aug.b4_pval.value, draw=None, batch=None),
@@ -700,14 +719,14 @@ def play_info():
                  Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=aug_dash.pad.value, batch=False)
                 ]
 
-    after_b = [Resize(128), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
+    after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
                Normalize(stats_info.stats)]
 
     source_play = untar_data(URLs.IMAGEWOOF_160)
     items = get_image_files(source_play/'train')
 
     tfms = [[PILImage.create], [parent_label, Categorize]]
-    item_tfms = [ToTensor(), Resize(194)]
+    item_tfms = [ToTensor(), Resize(item_size)]
     dsets = Datasets(items, tfms=tfms)
     dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
 
@@ -715,6 +734,10 @@ def play_info():
     imagewoof_plaz()
 
 def imagewoof_plaz():
+
+    item_size = int(aug_dash.imgsiz.value)
+    final_size = int(aug_dash.imgbth.value)
+
     button_t2 = widgets.Button(description='Play')
     button_res = widgets.Button(description='View')
     res = widgets.ToggleButtons(value=None, options=['Confusion Matrix', 'Most Confused', 'Top Losses'], description='', button_style='info')
@@ -734,7 +757,7 @@ def imagewoof_plaz():
                  Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=PadMode.Reflection, batch=False)
                         ]
 
-            after_b = [Resize(128), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
+            after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
                        Normalize(stats_info.stats)]
 
             source_play = untar_data(URLs.IMAGEWOOF_160)
@@ -742,7 +765,7 @@ def imagewoof_plaz():
 
             split_idx = block_ch.spl_val(items)
             tfms = [[block_ch.cls], [block_ch.outputb, block_ch.ctg]]
-            item_tfms = [ToTensor(), Resize(194)]
+            item_tfms = [ToTensor(), Resize(item_size)]
             dsets = Datasets(items, tfms=tfms, splits=split_idx)
 
             dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
