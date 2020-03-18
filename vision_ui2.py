@@ -626,7 +626,7 @@ def write_code():
             print(RED + BOLD + '\n"""get item, split and batch transforms"""' + RESET)
             print('tfms = [[' + str(block_ch.code) + ']' + ' ,' + '[' + str(block_ch.outputb_code) + ', '
                   +  str(block_ch.ctg_code) + ']]')
-            print('item_tfms = [ToTensor(), Resize(194)]')
+            print('item_tfms = [ToTensor(), Resize(' + GREEN + str(aug_dash.imgsiz.value) + RESET + ')]')
             print('split_idx = ' + str(block_ch.spl_val_code) + '(items)')
             print(RED + BOLD + '\n"""image augmentations"""' + RESET)
             if aug_dash.aug.value == 'No':
@@ -656,7 +656,7 @@ def write_code():
                       ', draw_y=' + GREEN + BOLD + 'None' +  RESET + ', size=' + GREEN + BOLD + 'None' + RESET + ', mode=' + RED + "'bilinear'" +
                       RESET + ', pad_mode=' + RED + str(aug_dash.pad.value) + RESET + ', batch=' + GREEN + BOLD + 'False' + RESET + ')]')
 
-            print('\nafter_b = [Resize(128), IntToFloatTensor(), ' + '\n          ' + "*aug_transforms(xtra_tfms=xtra_tfms, pad_mode="
+            print('\nafter_b = [Resize(' + GREEN + str(aug_dash.imgbth.value) + RESET + '), IntToFloatTensor(), ' + '\n          ' + "*aug_transforms(xtra_tfms=xtra_tfms, pad_mode="
                   + RED + "'" + str(aug_dash.pad.value) + "'" + RESET + '),' + ' Normalize.from_stats(' + GREEN + str(stats_info.code) + RESET + ')]')
 
             print('\ndsets = Datasets(items, tfms=tfms, splits=split_idx)')
