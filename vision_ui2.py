@@ -585,7 +585,7 @@ def code_test():
         dsets = Datasets(code_test.items, tfms=tfms)
         dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
 
-        dls.show_batch(max_n=12, rows=2, cols=6)
+        dls.show_batch(max_n=12, nrows=2, ncols=6)
 
     if display_ui.tab.selected_index == 3: #>>> DataBlock tab
 
@@ -606,7 +606,7 @@ def code_test():
                  BOLD + BLUE + "Valid: "+ RESET + RED + '(' + str(len(dls.valid)) + ', ' + str(len(dls.valid_ds)) + ')')
             print(BOLD + BLUE + "Input Shape: " + RESET + RED + str(xb.shape))
             print(BOLD + BLUE + "Output Shape: " + RESET + RED + str(yb.shape) + " by " + str(dls.c) + " classes")
-            dls.show_batch(max_n=12, rows=2, cols=6)
+            dls.show_batch(max_n=12, nrows=2, ncols=6)
         db_button2.on_click(on_db_out)
 
 def write_code():
@@ -730,7 +730,7 @@ def play_info():
     dsets = Datasets(items, tfms=tfms)
     dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
 
-    dls.show_batch(max_n=6, rows=1, cols=6)
+    dls.show_batch(max_n=6, nrows=1, ncols=6)
     imagewoof_plaz()
 
 def imagewoof_plaz():
