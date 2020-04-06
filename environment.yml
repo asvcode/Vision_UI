@@ -18,4 +18,4 @@ dependencies:
 - scikit-learn
 - scipy
 - spacy
-- viola
+- voila
