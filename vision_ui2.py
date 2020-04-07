@@ -1,3 +1,7 @@
+###############################
+##### Visual_UI version 2 #####
+#####  Update 04/06/2020  #####
+###############################
 from fastai2.vision.all import*
 from utils import*
 
@@ -49,7 +53,7 @@ def dashboard_one():
     try:
         import nbdev; nbd = nbdev.__version__
     except ImportError:
-        ndb = 'nbdev not found'
+        nbd = 'nbdev not found'
 
     print (BOLD +  RED + '>> Vision_UI Update: 03/17/2020')
     style = {'description_width': 'initial'}
@@ -168,8 +172,12 @@ def plt_classes():
     plt.show()
 
     display(disp_img_but)
+    out_img = widgets.Output()
+    display(out_img)
     def on_disp_button(b):
-        display_images()
+        with out_img:
+            clear_output()
+            display_images()
     disp_img_but.on_click(on_disp_button)
 
 def display_images():
@@ -694,33 +702,43 @@ def play_info():
     item_size = int(aug_dash.imgsiz.value)
     final_size = int(aug_dash.imgbth.value)
 
-    print(BOLD + BLUE +  'Loading ImageWoof-160\n' + RESET)
-    print(BOLD + BLUE + "Current Augmentations:" + RESET)
-    print(BOLD + BLUE + "RandomErasing: " + RESET + RED + 'max_count=' + str(aug.b_max.value) + ' p=' + str(aug.b_pval.value))
-    print(BOLD + BLUE + "Contrast: " + RESET + RED + 'max_light=' + str(aug.b1_max.value) + ' p=' + str(aug.b1_pval.value))
-    print(BOLD + BLUE + "Rotate: " + RESET + RED + 'max_degree=' + str(aug.b2_max.value) + ' p=' + str(aug.b2_pval.value))
-    print(BOLD + BLUE + "Warp: " + RESET + RED + 'magnitude=' + str(aug.b3_mag.value) + ' p=' + str(aug.b3_pval.value))
-    print(BOLD + BLUE + "Brightness: " + RESET + RED + 'max_light=' + str(aug.b4_max.value) + ' p=' + str(aug.b4_pval.value))
-    print(BOLD + BLUE + "DihedralFlip: " + RESET + RED + ' p=' + str(aug.b5_pval.value) + str(aug.b5_draw.value))
-    print(BOLD + BLUE + "Zoom: " + RESET + RED + 'max_zoom=' + str(aug.b6_zoom.value) + ' p=' + str(aug.b6_pval.value))
-    print(BOLD + BLUE + "\nMulti/Single Image: " + RESET + RED + str(aug_dash.bi.value))
-    print(BOLD + BLUE + "Padding: " + RESET + RED + str(aug_dash.pad.value))
-    print(BOLD + BLUE + "Normalization: " + RESET + RED + str(stats_info.stats))
-    print(BOLD + BLUE + "Batch Size: " + RESET + RED + (aug_dash.bs.value))
-    print(BOLD + BLUE + "Item Size: " + RESET + RED + str(item_size))
-    print(BOLD + BLUE + "Final Size: " + RESET + RED + str(final_size))
+    if aug_dash.aug.value == 'No':
+        print(BOLD + BLUE + "working.....: " + RESET + RED + 'No Augmentations\n')
+        print(BOLD + BLUE + "Multi/Single Image: " + RESET + RED + str(aug_dash.bi.value))
+        print(BOLD + BLUE + "Padding: " + RESET + RED + str(aug_dash.pad.value))
+        print(BOLD + BLUE + "Normalization: " + RESET + RED + str(stats_info.stats))
+        print(BOLD + BLUE + "Batch Size: " + RESET + RED + (aug_dash.bs.value))
+        print(BOLD + BLUE + "Item Size: " + RESET + RED + str(item_size))
+        print(BOLD + BLUE + "Final Size: " + RESET + RED + str(final_size))
+        after_b = None
 
-    xtra_tfms = [RandomErasing(p=aug.b_pval.value, max_count=aug.b_max.value, min_aspect=aug.b_asp.value, sl=aug.b_len.value, sh=aug.b_ht.value), #p= probabilty
-                 Brightness(max_lighting=aug.b4_max.value, p=aug.b4_pval.value, draw=None, batch=None),
-                 Rotate(max_deg=aug.b2_max.value, p=aug.b2_pval.value, draw=None, size=None, mode='bilinear', pad_mode=aug_dash.pad.value),
-                 Warp(magnitude=aug.b3_mag.value,p=aug.b3_pval.value,draw_x=None,draw_y=None,size=None,mode='bilinear',pad_mode='reflection',batch=False,),
-                 Contrast(max_lighting=aug.b1_max.value, p=aug.b1_pval.value, draw=aug.b1_draw.value, batch=True), #draw = 1 is normal batch=batch tfms or not
-                 Dihedral(p=aug.b5_pval.value, draw=aug.b5_draw.value, size=None, mode='bilinear', pad_mode=PadMode.Reflection, batch=False),
-                 Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=aug_dash.pad.value, batch=False)
+    if aug_dash.aug.value == 'Yes':
+        print(BOLD + BLUE +  'Loading ImageWoof-160\n' + RESET)
+        print(BOLD + BLUE + "Current Augmentations:" + RESET)
+        print(BOLD + BLUE + "RandomErasing: " + RESET + RED + 'max_count=' + str(aug.b_max.value) + ' p=' + str(aug.b_pval.value))
+        print(BOLD + BLUE + "Contrast: " + RESET + RED + 'max_light=' + str(aug.b1_max.value) + ' p=' + str(aug.b1_pval.value))
+        print(BOLD + BLUE + "Rotate: " + RESET + RED + 'max_degree=' + str(aug.b2_max.value) + ' p=' + str(aug.b2_pval.value))
+        print(BOLD + BLUE + "Warp: " + RESET + RED + 'magnitude=' + str(aug.b3_mag.value) + ' p=' + str(aug.b3_pval.value))
+        print(BOLD + BLUE + "Brightness: " + RESET + RED + 'max_light=' + str(aug.b4_max.value) + ' p=' + str(aug.b4_pval.value))
+        print(BOLD + BLUE + "DihedralFlip: " + RESET + RED + ' p=' + str(aug.b5_pval.value) + str(aug.b5_draw.value))
+        print(BOLD + BLUE + "Zoom: " + RESET + RED + 'max_zoom=' + str(aug.b6_zoom.value) + ' p=' + str(aug.b6_pval.value))
+        print(BOLD + BLUE + "\nMulti/Single Image: " + RESET + RED + str(aug_dash.bi.value))
+        print(BOLD + BLUE + "Padding: " + RESET + RED + str(aug_dash.pad.value))
+        print(BOLD + BLUE + "Normalization: " + RESET + RED + str(stats_info.stats))
+        print(BOLD + BLUE + "Batch Size: " + RESET + RED + (aug_dash.bs.value))
+        print(BOLD + BLUE + "Item Size: " + RESET + RED + str(item_size))
+        print(BOLD + BLUE + "Final Size: " + RESET + RED + str(final_size))
+
+        xtra_tfms = [RandomErasing(p=aug.b_pval.value, max_count=aug.b_max.value, min_aspect=aug.b_asp.value, sl=aug.b_len.value, sh=aug.b_ht.value), #p= probabilty
+                Brightness(max_lighting=aug.b4_max.value, p=aug.b4_pval.value, draw=None, batch=None),
+                Rotate(max_deg=aug.b2_max.value, p=aug.b2_pval.value, draw=None, size=None, mode='bilinear', pad_mode=aug_dash.pad.value),
+                Warp(magnitude=aug.b3_mag.value,p=aug.b3_pval.value,draw_x=None,draw_y=None,size=None,mode='bilinear',pad_mode='reflection',batch=False,),
+                Contrast(max_lighting=aug.b1_max.value, p=aug.b1_pval.value, draw=aug.b1_draw.value, batch=True), #draw = 1 is normal batch=batch tfms or not
+                Dihedral(p=aug.b5_pval.value, draw=aug.b5_draw.value, size=None, mode='bilinear', pad_mode=PadMode.Reflection, batch=False),
+                Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=aug_dash.pad.value, batch=False)
                 ]
-
-    after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
-               Normalize(stats_info.stats)]
+        after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
+                  Normalize(stats_info.stats)]
 
     source_play = untar_data(URLs.IMAGEWOOF_160)
     items = get_image_files(source_play/'train')
@@ -748,17 +766,21 @@ def imagewoof_plaz():
         with play_out:
             clear_output()
             print('Training.....')
-            xtra_tfms = [RandomErasing(p=aug.b_pval.value, max_count=aug.b_max.value, min_aspect=aug.b_asp.value, sl=aug.b_len.value, sh=aug.b_ht.value), #p= probabilty
-                 Brightness(max_lighting=aug.b4_max.value, p=aug.b4_pval.value, draw=None, batch=None),
-                 Rotate(max_deg=aug.b2_max.value, p=aug.b2_pval.value, draw=None, size=None, mode='bilinear', pad_mode=aug_dash.pad.value),
-                 Warp(magnitude=aug.b3_mag.value,p=aug.b3_pval.value,draw_x=None,draw_y=None,size=None,mode='bilinear',pad_mode='reflection',batch=False,),
-                 Contrast(max_lighting=aug.b1_max.value, p=aug.b1_pval.value, draw=aug.b1_draw.value, batch=True), #draw = 1 is normal batch=batch tfms or not
-                 Dihedral(p=aug.b5_pval.value, draw=aug.b5_draw.value, size=None, mode='bilinear', pad_mode=PadMode.Reflection, batch=False),
-                 Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=PadMode.Reflection, batch=False)
-                        ]
+            if aug_dash.aug.value == 'No':
+                after_b = None
+            if aug_dash.aug.value == 'Yes':
 
-            after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
-                       Normalize(stats_info.stats)]
+                xtra_tfms = [RandomErasing(p=aug.b_pval.value, max_count=aug.b_max.value, min_aspect=aug.b_asp.value, sl=aug.b_len.value, sh=aug.b_ht.value), #p= probabilty
+                            Brightness(max_lighting=aug.b4_max.value, p=aug.b4_pval.value, draw=None, batch=None),
+                            Rotate(max_deg=aug.b2_max.value, p=aug.b2_pval.value, draw=None, size=None, mode='bilinear', pad_mode=aug_dash.pad.value),
+                            Warp(magnitude=aug.b3_mag.value,p=aug.b3_pval.value,draw_x=None,draw_y=None,size=None,mode='bilinear',pad_mode='reflection',batch=False,),
+                            Contrast(max_lighting=aug.b1_max.value, p=aug.b1_pval.value, draw=aug.b1_draw.value, batch=True), #draw = 1 is normal batch=batch tfms or not
+                            Dihedral(p=aug.b5_pval.value, draw=aug.b5_draw.value, size=None, mode='bilinear', pad_mode=PadMode.Reflection, batch=False),
+                            Zoom(max_zoom=aug.b6_zoom.value, p=aug.b6_pval.value, draw=None, draw_x=None, draw_y=None, size=None, mode='bilinear',pad_mode=PadMode.Reflection, batch=False)
+                            ]
+
+                after_b = [Resize(final_size), IntToFloatTensor(), *aug_transforms(xtra_tfms=xtra_tfms, pad_mode=aug_dash.pad.value),
+                            Normalize(stats_info.stats)]
 
             source_play = untar_data(URLs.IMAGEWOOF_160)
             items = get_image_files(source_play/'train')
@@ -770,9 +792,10 @@ def imagewoof_plaz():
 
             dls = dsets.dataloaders(after_item=item_tfms, after_batch=after_b, bs=int(aug_dash.bs.value), num_workers=0)
             arch = xresnet50(pretrained=False)
-            learn = Learner(dls, model=arch, loss_func=LabelSmoothingCrossEntropy(),
-                            metrics=[top_k_accuracy, accuracy])
-            learn.fit_one_cycle(1, 1e-2)
+            #learn = Learner(dls, model=arch, loss_func=LabelSmoothingCrossEntropy(),
+            #                metrics=[top_k_accuracy, accuracy])
+            learn = cnn_learner(dls, xresnet50, loss_func=LabelSmoothingCrossEntropy(), metrics=[top_k_accuracy, accuracy])
+            learn.fine_tune(1)
             print('Getting Intepretations....')
             interp = ClassificationInterpretation.from_learner(learn)
 
