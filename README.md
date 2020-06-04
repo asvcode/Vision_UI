@@ -1,5 +1,5 @@
-### Visual_UI
-Visual UI interface for fastai
+### fast-gui
+Graphical User interface for fastai
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6) ![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)
 
@@ -11,6 +11,9 @@ Visual UI adds a graphical interface to fastai allowing the user to quickly load
 ________________________________________________________________________________________________________________________________________
 
 ### Updates
+
+#### 06/03/2020
+- Can now be `pip` installed [fast-gui](https://pypi.org/project/fast-gui/) 
 
 #### 03/17/2020
 - Update for compatability with [fastai2](https://github.com/fastai/fastai2)
