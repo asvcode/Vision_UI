@@ -2,7 +2,7 @@
 Colab_UI based on Vision_UI
 Visual graphical interface for Fastai
 
-Last Update: 10/12/2019
+Last Update: 07/04/2020
 https://github.com/asvcode/Vision_UI
 """
 
@@ -25,7 +25,7 @@ def version():
     import tensorflow as tf
     import torch
 
-    print ('>> Vision_UI_Colab Last Update: 10/12/2019 \n\n>> System info \n')
+    print ('>> Vision_UI_Colab Last Update: 07/04/2020 \n\n>> System info \n')
 
     button = widgets.Button(description='System Info')
     display(button)
@@ -36,14 +36,21 @@ def version():
     def on_button_clicked_info(b):
         with out:
             clear_output()
-            print(f'Fastai Version: {fastai.__version__}')
-            print(f'Cuda: {torch.cuda.is_available()}')
-            if 'COLAB_TPU_ADDR' not in os.environ:
-                colab_gpu = print(f'Using GPU: {torch.cuda.get_device_name(0)}')
-            else:
-                tpu_address = 'grpc://' + os.environ['COLAB_TPU_ADDR']
-                colab_gpu = print ('Using TPU: TPU address is', tpu_address)
-            print(f'Python version: {sys.version}')
+            RED = '\033[31m'
+            BLUE = '\033[94m'
+            GREEN = '\033[92m'
+            BOLD   = '\033[1m'
+            ITALIC = '\033[3m'
+            RESET  = '\033[0m'
+
+            import fastai; print(BOLD + BLUE + "fastai Version: " + RESET + ITALIC + str(fastai.__version__))
+            import fastprogress; print(BOLD + BLUE + "fastprogress Version: " + RESET + ITALIC + str(fastprogress.__version__))
+            import sys; print(BOLD + BLUE + "python Version: " + RESET + ITALIC + str(sys.version))
+            import torchvision; print(BOLD + BLUE + "torchvision: " + RESET + ITALIC + str(torchvision.__version__))
+            import torch; print(BOLD + BLUE + "torch version: " + RESET + ITALIC + str(torch.__version__))
+            print(BOLD + BLUE + "\nCuda: " + RESET + ITALIC + str(torch.cuda.is_available()))
+            print(BOLD + BLUE + "cuda Version: " + RESET + ITALIC + str(torch.version.cuda))
+            print(BOLD + BLUE + "GPU: " + RESET + ITALIC + str(torch.cuda.get_device_name(0)))
 
     button.on_click(on_button_clicked_info)
 
@@ -564,13 +571,6 @@ def model_button():
 
     button_m.on_click(on_button_clicked_train)
 
-def drive_upload():
-  from google.colab import drive
-  print('mounting drive')
-  drive.mount('/content/gdrive', force_remount=True)
-  drive_upload.root_dir = "/content/gdrive/My Drive/"
-  print('drive mounted')
-
 def path_load():
 
   path = Path(drive_upload.root_dir)
@@ -724,7 +724,6 @@ def colab_ui():
 
 
     with t.output_to(0, select=False):
-        #drive_upload()
         get_path()
         path_load()
 
