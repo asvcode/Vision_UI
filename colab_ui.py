@@ -724,7 +724,7 @@ def colab_ui():
 
 
     with t.output_to(0, select=False):
-        drive_upload()
+        #drive_upload()
         get_path()
         path_load()
 
