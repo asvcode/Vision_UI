@@ -1,7 +1,9 @@
 ### fast-gui
 Graphical User interface for fastai
 
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6) ![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)
+[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) ![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1O_H41XhABAEQxg_p8KZd_BCQ8pj-eJX6) works with version 1 only
 
 
 <img src="static/visionUI2_part1.gif" width="430" height="250"/><img src="static/visionUI2_part2.gif" width="430" height="250"/>
