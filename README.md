@@ -1,4 +1,4 @@
-### fast-gui
+### Vision_UI
 Graphical User interface for fastai
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE) ![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)
@@ -22,6 +22,7 @@ ________________________________________________________________________________
 - Files: `Visual_UI2.ipyb` and `vision_ui2.py`
 
 #### Updates below are for version 1
+Files: `Visual_UI.ipyb` and `vision_ui.py`
 
 #### 12/23/2019
 - Inclusion of ImageDataBunch.from_csv
