@@ -193,10 +193,11 @@ run `Visual_UI.ipynb` and run `display_ui()`
 
 ### Known Issues
 
-##### Paperspace
-
-Currently causing [display] issues with tkinter
+- **Colab** - version 1 works with colab [Colab_UI](https://github.com/asvcode/Colab_UI) but is glitchy
 
 ### Future Work
 
-- Integrate into fastai v2
+- ~~Integrate into fastai v2~~ - Compatability with fastai v2 done but not with the full functionality as the v1 version
+- ~~Create pip install verson~~ - Done! [fast-gui](https://pypi.org/project/fast-gui/)
+- Include full functionality with v2 version
+- Create a v2 that is compatible with Colab
