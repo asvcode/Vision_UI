@@ -1261,68 +1261,32 @@ def model_summary():
     button_model_1.on_click(on_button_clicked_model_1)
 
 def arch_work():
-    if dashboard_one.archi.value == 'alexnet':
-        arch_work.info = models.alexnet
-        arch_work.code_i = str('alexnet')
-    elif dashboard_one.archi.value == 'BasicBlock':
-        arch_work.info = models.BasicBlock
-        arch_work.code_i = str('BasicBlock')
-    elif dashboard_one.archi.value == 'densenet121':
-        arch_work.info = models.densenet121
-        arch_work.code_i = str('densenet121')
-    elif dashboard_one.archi.value == 'densenet161':
-        arch_work.info = models.densenet161
-        arch_work.code_i = str('densenet161')
-    elif dashboard_one.archi.value == 'densenet169':
-        arch_work.info = models.densenet169
-        arch_work.code_i = str('densenet169')
-    elif dashboard_one.archi.value == 'densenet201':
-        arch_work.info = models.densenet201
-        arch_work.code_i = str('densenet201')
-    if dashboard_one.archi.value == 'resnet18':
-        arch_work.info = models.resnet18
-        arch_work.code_i = str('resnet18')
-    elif dashboard_one.archi.value == 'resnet34':
-        arch_work.info = models.resnet34
-        arch_work.code_i = str('resnet34')
-    elif dashboard_one.archi.value == 'resnet50':
-        arch_work.info = models.resnet50
-        arch_work.code_i = str('resnet50')
-    elif dashboard_one.archi.value == 'resnet101':
-        arch_work.info = models.resnet101
-        arch_work.code_i = str('resnet101')
-    elif dashboard_one.archi.value == 'resnet152':
-        arch_work.info = models.resnet152
-        arch_work.code_i = str('resnet152')
-    elif dashboard_one.archi.value == 'squeezenet1_0':
-        arch_work.info = models.squeezenet1_0
-        arch_work.code_i = str('squeezenet1_0')
-    elif dashboard_one.archi.value == 'squeezenet1_1':
-        arch_work.info = models.squeezenet1_1
-        arch_work.code_i = str('squeezenet1_1')
-    elif dashboard_one.archi.value == 'vgg16_bn':
-        arch_work.info = models.vgg16_bn
-        arch_work.code_i = str('vgg16_bn')
-    elif dashboard_one.archi.value == 'vgg19_bn':
-        arch_work.info = models.vgg19_bn
-        arch_work.code_i = str('vgg19_bn')
-    #elif dashboard_one.archi.value == 'wrn_22':
-    #    arch_work.info = models.wrn_22
-    elif dashboard_one.archi.value == 'xresnet18':
-        arch_work.info = xresnet2.xresnet18 #using xresnet2.py
-        arch_work.code_i = str('xresnet18')
-    elif dashboard_one.archi.value == 'xresnet34':
-        arch_work.info = xresnet2.xresnet34_2 #using xresnet2.py
-        arch_work.code_i = str('xresnet34')
-    elif dashboard_one.archi.value == 'xresnet50':
-        arch_work.info = xresnet2.xresnet50_2 #using xresent2.py
-        arch_work.code_i = str('xresnet50')
-    elif dashboard_one.archi.value == 'xresnet101':
-        arch_work.info = xresnet2.xresnet101 #using xresent2.py
-        arch_work.code_i = str('xresenet101')
-    elif dashboard_one.archi.value == 'xresnet152':
-        arch_work.info = xresnet2.xresnet152 #using xresnet2.py
-        arch_work.code_i = str('xresnet152')
+    arch_map = {
+        'alexnet': models.alexnet,
+        'BasicBlock': models.BasicBlock,
+        'densenet121': models.densenet121,
+        'densenet161': models.densenet161,
+        'densenet169': models.densenet169,
+        'densenet201': models.densenet201,
+        'resnet18': models.resnet18,
+        'resnet34': models.resnet34,
+        'resnet50': models.resnet50,
+        'resnet101': models.resnet101,
+        'resnet152': models.resnet152,
+        'squeezenet1_0': models.squeezenet1_0,
+        'squeezenet1_1': models.squeezenet1_1,
+        'vgg16_bn': models.vgg16_bn,
+        'vgg19_bn': models.vgg19_bn,
+        # 'wrn_22': models.wrn_22,
+        'xresnet18': xresnet2.xresnet18,  # using xresnet2.py
+        'xresnet34': xresnet2.xresnet34_2,  # using xresnet2.py
+        'xresnet50': xresnet2.xresnet50_2,  # using xresent2.py
+        'xresnet101': xresnet2.xresnet101,  # using xresent2.py
+        'xresnet152': xresnet2.xresnet152,  # using xresnet2.py
+    }
+
+    arch_work.code_i = str(dashboard_one.archi.value)
+    arch_work.info = arch_map.get(arch_work.code_i)
 
     output = arch_work.info
     output_c = arch_work.code_i
